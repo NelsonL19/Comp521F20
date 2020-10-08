@@ -4,12 +4,11 @@ db = sqlite3.connect('NCCOVID19 copy.db')
 cursor = db.cursor()
 
 
-sql = '''DROP INDEX i_cvfips'''
-cursor.execute(sql)
 
 
 
-sql = '''CREATE INDEX i_cvfips ON Covid19(cases,date)'''
+
+sql = '''CREATE INDEX i_cvfips ON Covid19(date,cases)'''
 cursor.execute(sql)
 
 
@@ -33,6 +32,11 @@ totalTime = endTime - startTime
 print(totalTime)
 rows = cursor.fetchall()
 print(len(rows))
+
+sql = '''DROP INDEX i_cvfips'''
+cursor.execute(sql)
+
+
 
 
 #0.0122789 Seconds
