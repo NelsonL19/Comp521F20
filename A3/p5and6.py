@@ -8,12 +8,11 @@ cursor = db.cursor()
 
 
 
-sql = '''CREATE INDEX i_cvfips ON Covid19(date,cases)'''
+sql = '''CREATE INDEX i_cvfips ON Covid19(cases, date, fips)'''
 cursor.execute(sql)
 
 
-
-
+finalrow = []
   
 sql = '''SELECT C1.name, C2.name, V1.date, V1.cases 
          FROM County C1, Covid19 V1, County C2, Covid19 V2
@@ -24,14 +23,17 @@ sql = '''SELECT C1.name, C2.name, V1.date, V1.cases
 startTime = time.perf_counter()
 
 cursor.execute(sql)
+rows = cursor.fetchall()
+
+for row in rows:
+    finalrow.append(row)
 
 endTime = time.perf_counter()
 totalTime = endTime - startTime
 
-
 print(totalTime)
-rows = cursor.fetchall()
 print(len(rows))
+
 
 sql = '''DROP INDEX i_cvfips'''
 cursor.execute(sql)
