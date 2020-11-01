@@ -16,10 +16,36 @@ def getPageId(year, fips):
 sql1 = 'SELECT year, fips FROM Demographics GROUP BY year, fips'
 cursor.execute(sql1)
 rows = cursor.fetchall()
-print(len(rows))
+#print(rows[1].keys())
+#print(rows[1]['fips'])
+
+buckets = {}
+ofAmount = 0;
+alreadyCaught = []
+
+for row in rows:
+        currId = getPageId(row['year'], row['fips']) 
+
+        if currId not in buckets:
+                arr = [{'year': row['year'], 'fips': row['fips'], 'pageId': currId}]
+                buckets[currId] = arr
+        else:
+                newArr = {'year': row['year'], 'fips': row['fips'], 'pageId': currId}
+                buckets[currId].append(newArr)
+
+                if len(buckets[currId]) > 400:
+                        if currId in alreadyCaught:
+                                 pass
+                        else:
+                                ofAmount+=1
+                                alreadyCaught.append(currId)       
 
 
 
+
+print(ofAmount)
+#for x in buckets:
+        #print(x)
 
 #Q2
 
