@@ -13,7 +13,7 @@ def getPageId(year, fips):
 
 #Q1
 
-sql1 = 'SELECT year, fips FROM Demographics GROUP BY year, fips'
+sql1 = 'SELECT year, fips FROM Demographics'
 cursor.execute(sql1)
 rows = cursor.fetchall()
 #print(rows[1].keys())
@@ -44,8 +44,12 @@ for row in rows:
 
 
 print(ofAmount)
-#for x in buckets:
-        #print(x)
+numer = 0
+for x in buckets:
+        numer+= len(buckets[x])
+print(numer/512) #4.1015625
+
+
 
 #Q2
 
