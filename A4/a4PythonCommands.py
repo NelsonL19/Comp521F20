@@ -13,6 +13,7 @@ def getPageId(year, fips):
 
 #Q1
 
+
 sql1 = 'SELECT year, fips FROM Demographics GROUP BY year, fips'
 cursor.execute(sql1)
 rows = cursor.fetchall()
