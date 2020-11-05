@@ -48,12 +48,15 @@ for row in rows:
 
 
 print(ofAmount)
-#numer = 0
+numer = 0
 #for x in buckets:
 #        numer+= math.ceil(len(buckets[x])/128)
 #        print(numer)
 
 
+for x in buckets:
+        numer+= len(buckets[x])
+print(numer/512) #4.1015625
 
 #print(numer) #4.1015625
 
