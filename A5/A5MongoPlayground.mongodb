@@ -1,0 +1,63 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('covid19');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against proper database and collection.
+
+/* 
+db.counties.mapReduce(
+  function() { if (this.cases) for (let i = 0; i < this.cases.length; i++) emit(this.state, this.cases[i].count) },
+  function(key,values) {return Array.sum(values)},
+  {out: {inline: 1} }
+)
+ */
+
+// db.counties.aggregate([
+//   {$match: {}}, 
+//   {$unwind: '$cases'},  
+//   {$group: {_id: '$name', state: {$first:'$state'},  dateTime: {$push: {date: '$cases.date', total: {$sum: '$cases.count'}}}}},
+//   //{$match: {dateTime: {total:{$gt: 3500}}}}
+//   ])
+
+
+// db.counties.aggregate([
+//   {$match: {}}, 
+//   {$unwind: '$cases'},  
+//   {$group: {_id: '$name', state: {$first:'$state'}, date: {$first: '$cases.date'}, total: {$sum: '$cases.count'}}},
+//   {$match: {total: {$gt: 3500}}}
+//   ])
+
+
+// db.counties.aggregate([
+//   {$match: {}}, 
+//   {$unwind: '$cases'},
+//   {$group: {_id: {county:'$name' , state: '$state', date: '$cases.date'}, cases: {$first:'$cases.count'}}},
+//   {$match: {cases: {$gt: 3500}}}
+//   ])
+
+    //{$match: {total: {$gt: 3500}}}
+
+  //   db.counties.aggregate([
+  //  {$match: {}}, 
+  //  {$unwind: '$deaths'},  
+  //   {$group: {_id: {county:'$name' , state: '$state', population: '$population'}, deaths: {$sum:'$deaths.count'}}},
+  //     ])
+
+
+  //db.counties.find({$where:'this.name && this.name.toLowerCase().indexOf("county") === -1 && this.name != "State Unallocated"'},{cases:0,deaths:0,population:0})
+
+  //db.counties.find({$where:'this.name && !this.name.toLowerCase().includes("county") && this.name != "State Unallocated"'},{cases:0,deaths:0,population:0})
+  //db.counties.find({$where:'this.name && !this.name.toLowerCase().includes("county") && this.name != "Statewide Unallocated"'},{cases:0,deaths:0,population:0})
+
+  db.counties.mapReduce(
+    function () {
+        emit(this.name, this.state)
+        },
+    function (key,values) {if (values.length > 1) {return Array.sum(values)}},
+    {out: {inline: 1} }
+)
